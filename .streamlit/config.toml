@@ -1,0 +1,12 @@
+[theme]
+base = "light"
+primaryColor = "#FF914D"  # Oranye cerah khas BukitVista
+backgroundColor = "#FFFFFF"  # Putih bersih
+secondaryBackgroundColor = "#E6F4F1"  # Turquoise lembut untuk sidebar
+textColor = "#121212"  # Hitam netral
+font = "sans serif"
+
+[server]
+headless = true
+enableCORS = false
+port = 8501
