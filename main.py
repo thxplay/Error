@@ -5,6 +5,7 @@ import base64
 import json
 import streamlit.components.v1 as components
 
+
 # ==========================
 # CONFIG
 # ==========================
