@@ -83,8 +83,9 @@ footer{visibility:hidden;}
 header{visibility:hidden;}
 
 .login-box{
-    width:100%;
-    max-width:420px;
+    width:min(100%, 560px);
+    max-width:560px;
+    min-width:280px;
     margin:auto;
     margin-top:44px;
     position:relative;
@@ -93,8 +94,7 @@ header{visibility:hidden;}
     border:1px solid rgba(255, 77, 166, 0.18);
     backdrop-filter: blur(14px);
     border-radius:28px;
-    padding:32px 22px 34px;
-    box-shadow:0 22px 68px rgba(0,0,0,0.65);
+    padding:36px 26px 38px;
 }
 
 .login-box::before{
@@ -202,7 +202,7 @@ if st.session_state.login is False:
 
     tanggal = st.date_input(
         "Tanggal Lahir",
-        value=datetime(2007,7,13),
+        value=datetime(2026,1,1),
         min_value=datetime(1990,1,1),
         max_value=datetime(2030,12,31)
     )
@@ -222,7 +222,7 @@ if st.session_state.login is False:
             13
         ).date()
 
-        if nama == nama_benar and tanggal == tanggal_benar:
+        if nama.strip().lower() == nama_benar.lower() and tanggal == tanggal_benar:
 
             st.session_state.login = True
             st.rerun()
@@ -470,9 +470,9 @@ canvas {
         <div class="box"><div id="minute" class="number">00</div><div class="label">Menit</div></div>
         <div class="box"><div id="second" class="number">00</div><div class="label">Detik</div></div>
     </div>
-    <div class="message">💖 Waktu terus berjalan menuju hari spesialmu 💖</div>
-    <div style="text-align:center; margin-top: 24px;">
-        <button id="skip-button">Skip to Surprise</button>
+    <div class="message" id="count-message">💖 Waktu terus berjalan menuju hari spesialmu 💖</div>
+    <div id="end-button-container" style="text-align:center; margin-top: 24px; display:none;">
+        <button id="end-button">Buka Kejutan</button>
     </div>
 </div>
 <script>
@@ -482,10 +482,12 @@ const dayEl = document.getElementById("day");
 const hourEl = document.getElementById("hour");
 const minuteEl = document.getElementById("minute");
 const secondEl = document.getElementById("second");
-const skipButton = document.getElementById("skip-button");
+const countMessage = document.getElementById("count-message");
+const endButtonContainer = document.getElementById("end-button-container");
+const endButton = document.getElementById("end-button");
 
-if (skipButton) {
-    skipButton.addEventListener("click", showSurprise);
+if (endButton) {
+    endButton.addEventListener("click", showSurprise);
 }
 
 function pad(value) {
@@ -497,7 +499,12 @@ function updateCountdown() {
     const distance = target - now;
 
     if (distance <= 0) {
-        showSurprise();
+        dayEl.innerText = "00";
+        hourEl.innerText = "00";
+        minuteEl.innerText = "00";
+        secondEl.innerText = "00";
+        countMessage.innerText = "🎉 Countdown selesai! Klik tombol untuk membuka kejutanmu.";
+        endButtonContainer.style.display = "block";
         return;
     }
 
